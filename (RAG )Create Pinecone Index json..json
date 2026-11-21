@@ -1,0 +1,91 @@
+{
+  "name": "Create Pinecone Index",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -64
+      ],
+      "id": "d4daa94c-2702-46c8-bc0e-f74d15133c4f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pinecone.io/indexes",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "pineconeApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Pinecone-API-Version",
+              "value": "2026-04"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"name\": \"clothing-store-92\",\n  \"vector_type\": \"dense\",\n  \"dimension\": 1536,\n  \"metric\": \"cosine\",\n  \"spec\": {\n    \"serverless\": {\n      \"cloud\": \"aws\",\n      \"region\": \"us-east-1\"\n    }\n  },\n  \"deletion_protection\": \"disabled\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        256,
+        -64
+      ],
+      "id": "e604ac33-420c-41c8-82b9-95a4b3543429",
+      "name": "HTTP Request",
+      "credentials": {
+        "pineconeApi": {
+          "id": "tEis0uxZyZLzJTxj",
+          "name": "Pinecone account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Instead of creating the index manually from the Pinecone dashboard, we will create it through a separate n8n workflow using an HTTP Request.\n\nThis workflow sends a request to Pinecone's API to create the required vector index.",
+        "color": "#38B12F"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -432,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "b31d334f-fb12-4e85-b8e3-864ce5987489",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "bcf5e246-0c62-451b-9cb7-2abcb38beb69",
+  "meta": {
+    "instanceId": "0c50431740ded407b38373684d272e121662b040ca62e5519af0b002232ea9ee"
+  },
+  "nodeGroups": [],
+  "id": "ybBUQCoRz479TRzL",
+  "tags": []
+}

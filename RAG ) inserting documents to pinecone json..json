@@ -1,0 +1,142 @@
+{
+  "name": "inserting documents to pinecone",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "inserting document",
+        "formDescription": "Use that form to insert document in the Pinecone",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "upload a file",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        -576,
+        -64
+      ],
+      "id": "f63c44a3-81a0-46e3-b182-4709c0e912fb",
+      "name": "On form submission",
+      "webhookId": "36c61d86-1869-4c7e-90bf-090bd1998ffb"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "clothing-store-92",
+          "mode": "list",
+          "cachedResultName": "clothing-store-92"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.4,
+      "position": [
+        -208,
+        -64
+      ],
+      "id": "2500fd6e-8fec-47ea-9f1a-88a609bfa489",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "mSxzHJA01bJAPftO",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -208,
+        192
+      ],
+      "id": "8e28b00e-fd1f-4cc1-9cb9-d4f273e8ccdf",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "binaryMode": "specificField",
+        "binaryDataKey": "upload_a_file",
+        "options": {
+          "splitPages": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        160
+      ],
+      "id": "1b247fcc-e632-43ce-9939-1a4013fcb60a",
+      "name": "Default Data Loader"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e6d52031-678e-4d27-833d-9a4607d3693f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0c50431740ded407b38373684d272e121662b040ca62e5519af0b002232ea9ee"
+  },
+  "nodeGroups": [],
+  "id": "HO8kvBy7XgVjnCjp",
+  "tags": []
+}
